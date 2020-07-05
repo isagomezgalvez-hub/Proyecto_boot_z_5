@@ -24,12 +24,18 @@ Renombrar `.env_template` a `.env` e informar las claves
 	- FLASK_ENV= el que quieras `development` o `production`
 
 
-4. Necesitas una clave Api key de Coinmarket para consultar el valor de tus criptos
+4. Crear BD
+
+Ejecutar `migrations.sql` con sqlite3 en el fichero elegido como base de datos
+
+
+
+5. Necesitas una clave Api key de Coinmarket para consultar el valor de tus criptos
 
 Coinmarketcap te proporcionará una Api key para las diferentes consultas sobre el valor de las cryptomonedas.
 Recuerda añadir tu clave Api en `config.py`
 
-5. Necesitas una Secret Key para tu formulario WTF.
+6. Necesitas una Secret Key para tu formulario WTF.
 
 Recuerda añadir una clave Secreta a tu archivo `config.py`
 
