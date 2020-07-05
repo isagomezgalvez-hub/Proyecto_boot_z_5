@@ -1,0 +1,76 @@
+.disabled{
+	color: #6c757d;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+.active{
+    text-decoration: none;
+    color: #007bff;
+}
+
+.active:hover{
+    text-decoration: none;
+  
+}
+.header {
+    max-width: 700px;
+}
+#main.container{
+    margin-top: 100px;
+}
+.navbar-dark .navbar-brand {
+    padding: 0 20px;
+}
+.bg-purple {
+    background-color: #6f42c1;
+}
+.footer-credit{
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .875rem;
+    color: #6c757d;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-primary:hover{
+    color: #fff;
+    background-color: #59349c;
+    border-color: #59349c;
+}
+
+.btn-primary:active{
+    color: #fff;
+    background-color: #59349c;
+    border-color: #59349c;
+}
+.btn-info {
+    color: #fff;
+    background-color: #E83E8C;
+    border-color: #E83E8C;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #d2387f;
+    border-color:  #d2387f;
+}
+
+.info{
+    padding: 30px 0px 20px;
+}
+
+.boton-calcular{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    height: 100px;
+}

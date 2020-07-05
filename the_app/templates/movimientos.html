@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block titulo%}Movimientos{% endblock %}
+
+{% block menu %}
+<ul class="navbar-nav my-2 my-lg-0">
+  <li class="nav-item active">
+    <a class="nav-link" href="/">Movimientos<span class="sr-only">(current)</span></a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="/purchase">Compra</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="/status">Estado</a>
+  </li>
+</ul>
+{% endblock %}
+
+
+
+{% block contenido %}
+<main role="main" id="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Movimientos</h6>
+            <small>Ultimos Movimientos Realizados</small>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="container">
+            <div class="mb-3 text-center">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">From</th>
+                        <th scope="col">Q_From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Q_To</th>
+                        <th scope="col">P.U</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+              
+                      {% for movimiento in movimientos %}
+                      <tr>
+                        <th scope="row">{{ movimiento[0] }}</th>
+                        <td>{{ movimiento[1] }}</td>
+                        <td>{{ movimiento[2] }}</td>
+                        <td>{{ movimiento[4] }}</td>
+                        <td>{{ movimiento[3] }}</td>
+                        <td>{{ movimiento[5] }}</td>
+                        <td>{{ movimiento[6] }}</td>
+                        <td>{{ movimiento[7] }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  
+                  <p>{{ acceso_base_datos }}</p>
+               
+            </div>
+
+            <div class="row">
+     
+              <div class="col-md-6 mb-3">
+                <a href="/status"><button type="button" class="btn btn-info float-left">Estado</button></a>
+              </div>
+              <div class="col-md-6 mb-3">
+                <a href="/purchase"><button type="button" class="btn btn-primary float-right">+</button></a>  
+              </div>
+            </div>
+        </div>
+        
+    </div>
+   
+
+
+
+     
+
+</main>
+
+{% endblock %}

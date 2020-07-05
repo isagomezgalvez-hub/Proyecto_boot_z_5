@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block menu %}
+  <ul class="navbar-nav my-2 my-lg-0">
+    <li class="nav-item">
+      <a class="nav-link" href="/">Movimientos</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/purchase">Compra</a>
+    </li>
+
+    <li class="nav-item active">
+      <a class="nav-link" href="/status">Estado<span class="sr-only">(current)</span></a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block titulo%}Estado{% endblock %}
+
+{% block contenido %}
+<main role="main" id="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Estado de la Inversión</h6>
+            <small>Conoce el Estado de tu inversión</small>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="container">
+    
+            <div class="mb-3 text-center info">
+          
+               <p><h4>Invertido:</h4><span>{{ saldoenEuros }} €</span></p>
+               <p><h4>Valor Actual:</h4><span>{{ valorActual }} €</span></p> 
+                
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <a href="/"><button type="button" class="btn btn-info float-right">Volver</button></a>
+                </div>
+               
+              </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

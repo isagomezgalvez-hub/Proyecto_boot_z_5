@@ -1,0 +1,142 @@
+
+{% extends 'base.html' %}
+
+{% block titulo%}Alta de Compra{% endblock %}
+{% block menu %}
+  <ul class="navbar-nav my-2 my-lg-0">
+    <li class="nav-item">
+      <a class="nav-link" href="/">Movimientos<span class="sr-only">(current)</span></a>
+    </li>
+
+    <li class="nav-item active">
+      <a class="nav-link" href="/purchase">Compra<span class="sr-only">(current)</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/status">Estado</a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block contenido %}
+<main role="main" id="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Alta de Compra</h6>
+            <small>Realizar una nueva compra</small>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="container">
+
+                <form action="/purchase" method="post">
+                        {{ form.hidden_tag() }}
+                    <div class="form-row">  
+                      <div class="form-group col-md-6">
+                        {{ form.MonedaFrom.label() }}
+                        {{ form.MonedaFrom(class="custom-select custom-select-lg mb-3",placeholder="FROM")  }}
+                      </div>
+                      <div class="form-group col-md-6">
+                        {{ form.MonedaTo.label() }}
+                        {{ form.MonedaTo(class="custom-select custom-select-lg mb-3") }}
+                      </div>   
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                          {{ form.Q_Form.label() }}
+                          {{ form.Q_Form(class="form-control",placeholder='From') }}
+                        </div>
+                        <div class="form-group boton-calcular col-md-1">
+                        {{ form.calcular(class="input-group-append") }}
+                      
+                        </div>   
+
+                        <div class="form-group col-md-6">
+                          <div class="row">
+                            <div class="col-md-6">
+                              {{ form.Q_to.label() }}
+                              <div class="cantidad">
+                                {{ price}}
+                              </div>
+                              {{ form.Q_to(class="form-control") }}
+
+                            <hr>
+                            </div>
+                            <div class="col-md-6">
+                          
+                              {{ form.P_U.label() }}
+                              <div class="cantidad">
+                                {{ precio_unitario }}
+                               </div>
+                              {{ form.P_U(class="form-control") }}
+                              <hr>
+                            </div>
+                          </div>
+                      </div>
+                    </div>  
+                    
+                    <div class="form-row">
+                      <!-- Mostrar errores -->
+                      <div class="col-md-12">
+                        {% if form.MonedaFrom.errors %}
+                          {% for error in form.MonedaFrom.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>{{ error }}</p>
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                        
+                        {% if form.MonedaTo.errors %}
+                          {% for error in form.MonedaTo.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>{{ error }}</p>
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+
+                        {% if form.Q_Form.errors %}
+                          {% for error in form.Q_Form.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>{{ error }}</p>
+                                </div>
+                          {% endfor %}
+                        {% endif %}
+
+                        {% if form.calcular %}
+                           
+                              <p>{{ acceso_error_api }}</p>
+                             
+                        {% endif %}       
+                   
+
+                        
+                        {% if form.aceptar %}
+                                  <p>{{ calculaPrecio }}</p>
+                                  <p>{{ error_bd }}</p>
+                                  <p>{{ nohaysaldo }}</p>
+                        {% endif %}  
+                     
+                        
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                    
+                        <div class="col-md-6">
+                          {{ form.rechazar(class="btn btn-info") }}
+                        </div>
+                        <div class="col-md-6">
+                         {{ form.aceptar(class="btn btn-primary float-right") }}
+                        </div>
+                    
+                    </div>
+                </form>
+           
+        </div>
+      </div>
+
+</main>
+
+{% endblock %}

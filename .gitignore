@@ -1,0 +1,7 @@
+venv/
+.vscode/
+__pycache__/
+.env
+config.py
+data/Movements.db
+
