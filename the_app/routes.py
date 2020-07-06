@@ -130,7 +130,7 @@ def purchase():
 
 							consultaSaldo = SaldoCrypto()
 
-							if float(consultaSaldo) > float(request.values.get('Q_Form')):
+							if consultaSaldo > float(request.values.get('Q_Form')):
 								query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
 								datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
 							else:
