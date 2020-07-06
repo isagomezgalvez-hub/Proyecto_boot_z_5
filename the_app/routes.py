@@ -118,15 +118,20 @@ def purchase():
 								else:
 									saldo = saldoFrom[0]
 
-							Cantidad = float(request.values.get('Q_Form'))
+								Cantidad = float(request.values.get('Q_Form'))
 							
-							if saldo > Cantidad:
+								if saldo > Cantidad:
+									query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
+									datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
+								else:
+									errorsaldo = ('Saldo insuficiente. No tienes suficiente cantidad de {} para comprar: {} - {}. Por favor, intentalo con una cantidad menor o con otra criptomoneda de la que disponga con más saldo.'.format(request.values.get('MonedaFrom'),request.values.get('Q_Form'),request.values.get('MonedaTo')))
+									return render_template('compras.html',form=form, error_saldo=errorsaldo)
+
+							else:
 								query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
 								datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
-							else:
-								errorsaldo = ('Saldo insuficiente. No tienes suficiente cantidad de {} para comprar: {} - {}. Por favor, intentalo con una cantidad menor o con otra criptomoneda de la que disponga con más saldo.'.format(request.values.get('MonedaFrom'),request.values.get('Q_Form'),request.values.get('MonedaTo')))
-								return render_template('compras.html',form=form, error_saldo=errorsaldo)
-							
+
+
 							try:
 									cur.execute(query,datos)
 									conn.commit()
