@@ -23,17 +23,16 @@ def SaldoCrypto():
 
 					if saldoFrom[0] and saldoTo[0] is not None:
 						saldo = saldoFrom[0] - saldoTo[0]
-						return float(saldo)
 
 					elif saldoFrom[0] == None and saldoTo[0] is not None:
 						saldo = saldoTo[0]
-						return  float(saldo)
-
+					
 					else:
 						saldo = saldoFrom[0]
-						return float(saldo) 
+				
 
 		conn.close()
+		return float(saldo)
 		
 
 @app.route("/")
@@ -130,6 +129,7 @@ def purchase():
 
 							consultaSaldo = SaldoCrypto()
 							cantidadCompra = float(request.values.get('Q_Form'))
+
 							if consultaSaldo > cantidadCompra:
 								query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
 								datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
