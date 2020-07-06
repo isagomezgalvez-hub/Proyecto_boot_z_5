@@ -23,17 +23,18 @@ def SaldoCrypto():
 
 					if saldoFrom[0] and saldoTo[0] is not None:
 						saldo = saldoFrom[0] - saldoTo[0]
+						return saldo
 
 					elif saldoFrom[0] == None and saldoTo[0] is not None:
 						saldo = saldoTo[0]
+						return  saldo 
 
 					else:
 						saldo = saldoFrom[0]
-
+						return saldo 
 
 		conn.close()
-
-		return saldo
+		
 
 @app.route("/")
 def index():
@@ -107,7 +108,6 @@ def purchase():
 				else:
 					error_api = ('Se ha producido un error al consultar el valor actual de su moneda. Inténtelo de nuevo o contacte con el administrador') 
 					print("Error de consulta en API:", errorApi.get(resutls.status_code), errorApi.get(mensaje))
-						  	
 					return render_template('compras.html', form=form, acceso_error_api= error_api)
 				
 			else:
