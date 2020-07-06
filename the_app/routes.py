@@ -6,6 +6,35 @@ from datetime import datetime
 
 import requests, sqlite3,json
 
+
+def SaldoCrypto():
+		conn = sqlite3.connect(app.config['BASE_DATOS'])
+		cur = conn.cursor()
+
+		Saldo = "SELECT sum(to_quantity) from compras WHERE from_quantity = '{}'".format(request.values.get('MonedaFrom'))
+		cantidadFrom=cur.execute(Saldo).fetchall()
+		saldoFrom = cantidadFrom[0]
+
+		Saldo = "SELECT sum(to_currency) from compras WHERE from_currency = '{}'".format(request.values.get('MonedaFrom'))
+		cantidadTo=cur.execute(Saldo).fetchall()
+		saldoTo = cantidadTo[0]
+		
+		if saldoFrom[0] is not None or saldoTo[0] is not None:
+
+					if saldoFrom[0] and saldoTo[0] is not None:
+						saldo = saldoFrom[0] - saldoTo[0]
+
+					elif saldoFrom[0] == None and saldoTo[0] is not None:
+						saldo = saldoTo[0]
+
+					else:
+						saldo = saldoFrom[0]
+
+
+		conn.close()
+
+		return saldo
+
 @app.route("/")
 def index():
 	conn = sqlite3.connect(app.config['BASE_DATOS'])
@@ -99,9 +128,14 @@ def purchase():
 							conn = sqlite3.connect(app.config['BASE_DATOS'])
 							cur = conn.cursor()
 
-							query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
-							datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
-							
+							consultaSaldo = SaldoCrypto()
+
+							if float(consultaSaldo) > float(request.values.get('Q_Form')):
+								query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
+								datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
+							else:
+								errorsaldo = ('Saldo insuficiente. No tienes suficiente cantidad de {} para comprar: {} - {}. Por favor, intentalo con una cantidad menor o con otra criptomoneda de la que disponga con más saldo.'.format(request.values.get('MonedaFrom'),request.values.get('Q_Form'),request.values.get('MonedaTo')))
+								return render_template('compras.html',form=form, error_saldo=errorsaldo)
 							try:
 									cur.execute(query,datos)
 									conn.commit()
@@ -113,31 +147,6 @@ def purchase():
 									return render_template('compras.html',form=form, error_bd=errorbd)
 							
 							conn.close()
-						
-						#elif form.validate() and request.values.get('MonedaFrom') == 'BTC':
-							#Saldo = consultaSaldo()
-							
-							#if len(Saldo) == 0:
-
-								#query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
-								#datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
-			
-							#if 'BTC' == request.values.get('MonedaTo'):
-										#Q_Form = float(request.values.get('Q_Form'))
-							
-							#if Saldo.get('BTC') >= Q_Form:
-											#conn = sqlite3.connect(app.config['BASE_DATOS'])
-											#cur = conn.cursor()
-											
-											#query = "INSERT INTO compras (date,time,from_currency,from_quantity,to_currency,to_quantity,P_U) values (?,?,?,?,?,?,?);"
-											#datos =(now.date(),time,request.values.get('MonedaFrom'), request.values.get('MonedaTo'), request.values.get('Q_Form'),round(float(form.Q_to.data), 8),round(float(form.P_U.data), 8))
-
-											#cur.execute(query,datos)
-											#conn.commit()
-											#conn.close()
-											#return redirect(url_for("index"))	
-
-					
 
 @app.route("/status")
 def status():
@@ -167,7 +176,7 @@ def status():
 				invierteCrypto=cur.execute(consultacrypto).fetchall()
 				ICrypto = invierteCrypto[0]
 
-				if compracrypto[0] or ICrypto[0] is not None:
+				if compracrypto[0] is not None or ICrypto[0] is not None:
 
 					if compracrypto[0] and ICrypto[0] is not None:
 						d[moneda] = compracrypto[0] - ICrypto[0]
@@ -192,8 +201,6 @@ def status():
 			SumaEuros = sum(Euros)
 			IAEuros = round(SumaEuros,2)
 
-			# Calcular la cantidad Invertida
-
 			#Calcular el Valor Actual de la cantidad Invertida
 
 			if saldoenEuros[0] == None:
@@ -206,7 +213,7 @@ def status():
 				valorActual = saldoenEuros[0] + InvierteEuros[0] + IAEuros
 
 	
-			return render_template('estado.html', saldoenEuros= InvierteEuros[0], valorActual = valorActual)
+			return render_template('estado.html', saldoenEuros= InvierteEuros[0], valorActual = round(valorActual,2))
 
 			
 	except Exception as e:
@@ -215,7 +222,7 @@ def status():
 
 	conn.close()
 
-	#return render_template('estado.html')
+
 
 
 

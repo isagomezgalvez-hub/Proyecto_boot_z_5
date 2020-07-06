@@ -10,7 +10,7 @@ def validacion(form, field):
 	elif field.data != "BTC" and form.MonedaFrom.data == "EUR":
 		raise ValidationError("No es posible intercambiar EUR, por {}. Sólo puede comprar {}, con otras criptomonedas.".format(field.data,field.data ))
 	elif field.data == "EUR" and form.MonedaFrom.data != "BTC":
-		raise ValidationError("No es posible cambiar {} por EUR, directamente. Sólo es posible cambiar BTC por EUR. Si desea EUR, intercambie  antes sus {} a BTC y vuelva a intentarlo.".format(form.Moneda_from.data, form.Moneda_from.data))
+		raise ValidationError("No es posible cambiar {} por EUR, directamente. Sólo es posible cambiar BTC por EUR. Si desea EUR, intercambie  antes sus {} a BTC y vuelva a intentarlo.".format(form.MonedaFrom.data, form.MonedaFrom.data))
 
 Monedas = ("EUR", "BTC", "ETH", "XRP", "LTC", "BCH", "BNB", "USDT", "EOS", "BSV", "XLM", "ADA", "TRX")
 
