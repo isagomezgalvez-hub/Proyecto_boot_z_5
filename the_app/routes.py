@@ -122,7 +122,7 @@ def purchase():
 								except Exception as e:
 										errorbd = ('Error de acceso a la base de datos: {}'.format(e))
 										return render_template('compras.html',form=form, error_bd=errorbd)
-										
+
 								conn.close()
 							
 							else:
