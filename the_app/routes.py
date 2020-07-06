@@ -22,16 +22,15 @@ def SaldoCrypto():
 		if saldoFrom[0] is not None or saldoTo[0] is not None:
 
 					if saldoFrom[0] and saldoTo[0] is not None:
-						saldo = saldoFrom[0] - saldoTo[0]
+						saldo = float(saldoFrom[0] - saldoTo[0])
 
 					elif saldoFrom[0] == None and saldoTo[0] is not None:
-						saldo = saldoTo[0]
+						saldo = float(saldoTo[0])
 					
 					else:
-						saldo = saldoFrom[0]
-						
-					return float(saldo)
+						saldo = float(saldoFrom[0])
 
+		return saldo
 		conn.close()
 		
 		
