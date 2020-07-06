@@ -29,10 +29,11 @@ def SaldoCrypto():
 					
 					else:
 						saldo = saldoFrom[0]
-				
+						
+					return float(saldo)
 
 		conn.close()
-		return float(saldo)
+		
 		
 
 @app.route("/")
